@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* WHOLE PAGE */
+
+.container {
+    max-width: 750px;
+    /* height: 100vh; */
+    margin: 0 auto;
+    padding: 0 10px 0;
+}
+
+
+/* --------------------------------- */
+
+
+/* HEADER */
+
+.header {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header_title,
+.header_menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+a.header_menu_item {
+    outline: none;
+    text-decoration: none;
+}
+
+a.header_menu_item:link {
+    color: black;
+}
+
+a.header_menu_item:visited {
+    color: black;
+}
+
+a.header_menu_item:focus {
+    color: black;
+}
+
+a.header_menu_item:hover {
+    color: gold;
+}
+
+a.header_menu_item:active {
+    color: black;
+}
+
+
+/* --------------------------------- */
+
+
+/* BODY */
+
+.body {
+    /* height: 75px; */
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+a.init_button {
+    outline: none;
+    text-decoration: none;
+    width: 150px;
+}
+
+a.init_button:link {
+    color: black;
+}
+
+a.init_button:visited {
+    color: black;
+}
+
+a.init_button:focus {
+    color: black;
+}
+
+a.init_button:hover {
+    color: gold;
+}
+
+a.init_button:active {
+    color: black;
+}
+
+
+/* --------------------------------- */
+
+
+/* FOOTER */
+
+
+/* --------------------------------- */
+
+
+/* GENERAL */
+
+a {
+    border: 1px dotted black;
+    padding: 0px 20px 0px;
+    margin: 5px 0 5px;
+    border-radius: 10px;
+}
+
+
+/* --------------------------------- */
