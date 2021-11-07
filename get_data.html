@@ -18,15 +18,60 @@
                 <a href="get_data.html" class="header_menu_item">Get Data</a>
                 <a href="put_data.html" class="header_menu_item">Put Data</a>
             </div>
-            <div class="header_title">
+            <div class="header_data_draw_title">
                 <h1>Get data</h1>
             </div>
         </div>
         <div class="body">
-
+            <div class="data_selector">
+                <div class="table_selector">
+                    <label for="select">Select database please</label>
+                    <select name="table_name" id="table_name">
+                        <option value="people">People</option>
+                        <option value="planets">Planets</option>
+                        <option value="films">Films</option>
+                        <option value="species">Species</option>
+                        <option value="vehicles">Vehicles</option>
+                        <option value="starships">Starships</option>
+                    </select>
+                </div>
+                <div class="name_selector">
+                    <label for="input">Enter object name</label>
+                    <input type="text" id="object_name" onkeypress="get_data(event)">
+                </div>
+            </div>
+            <div class="data_draw">
+            </div>
         </div>
         <div class="footer"></div>
     </div>
 </body>
 
 </html>
+<!-- 
+<div class="data_draw_table_title">
+    <div class="ddtt_cell">eye_color</div>
+    <div class="ddtt_cell">homeworld</div>
+    <div class="ddtt_cell">created</div>
+    <div class="ddtt_cell">hair_color</div>
+    <div class="ddtt_cell">birth_year</div>
+    <div class="ddtt_cell">skin_color</div>
+    <div class="ddtt_cell">url</div>
+    <div class="ddtt_cell">films</div>
+
+</div>
+<div class="data_draw_table_content">
+    <div class="data_draw_table_line">
+        <div class="ddtl_cell">red</div>
+        <div class="ddtl_cell">https://swapi.dev/api/planets/8/</div>
+        <div class="ddtl_cell">2014-12-10T15:11:50.376000Z</div>
+        <div class="ddtl_cell">n/a</div>
+        <div class="ddtl_cell">33BBY</div>
+        <div class="ddtl_cell">white,blue</div>
+        <div class="ddtl_cell">https://swapi.dev/api/people/3/</div>
+        <div class="ddtl_cell">
+            https://swapi.dev/api/films/1/,https://swapi.dev/api/films/2/,https://swapi.dev/api/films/3/,https://swapi.dev/api/films/4/,https://swapi.dev/api/films/5/,https://swapi.dev/api/films/6/
+        </div>
+    </div>
+</div> 
+-->
