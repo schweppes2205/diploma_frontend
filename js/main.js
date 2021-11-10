@@ -150,3 +150,40 @@ function drawError(data, status) {
     errDiv.innerText = `${data}. Respond status code: ${status}`;
     dataDrawDiv.appendChild(errDiv);
 }
+
+// function to get approximate table structure.
+async function getTableFields() {
+    document.querySelector('div[class$="data_draw"]').innerHTML = "";
+
+    let selectedIndex = document.getElementById("table_name").options.selectedIndex;
+    let selectedTableName = document.getElementById("table_name").options[selectedIndex].value;
+    let getRequestUrl = new URL(`${urlRoot}/anyResource?resource=${selectedTableName}`);
+    let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
+
+    console.log(`Request url: ${getRequestUrl}`);
+    let responce = await fetch(getRequestUrl);
+    if (responce.status == 200) {
+        let data = await responce.json();
+        console.log(data);
+        let keys = Object.keys(data[0]);
+
+        keys.forEach(keyValue => {
+            let newDiv = document.createElement('div');
+            newDiv.innerText = keyValue;
+            dataDrawDiv.appendChild(newDiv);
+        })
+    }
+    else {
+        let msg = `Table ${selectedTableName} is empty, use any structure, you want`;
+        console.log(msg)
+        let msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        msgDiv.innerText = msg;
+        dataDrawDiv.appendChild(msgDiv);
+    }
+
+}
+
+function testFunction(event) {
+    console.log(event);
+}

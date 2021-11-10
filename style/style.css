@@ -225,4 +225,8 @@ a {
     border-radius: 10px;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 /* --------------------------------- */
