@@ -12,7 +12,8 @@ function maintainInitButtonPress(buttonId) {
         then(result => { alert(`Table ${urlSuffix} is initiated successfully`) }).
         catch(err => { alert(err) });
 }
-
+// get_data.html part
+// getting data function
 async function get_data(event) {
     // looking for Enter button press on the text input form
     if (event.keyCode === 13) {
@@ -59,7 +60,7 @@ async function get_data(event) {
         }
     }
 }
-
+// function to draw a table for a sigle requested value
 function drawSingleItem(data) {
     // playing with divs:
     // getting the one from page with class data_draw
@@ -94,20 +95,28 @@ function drawSingleItem(data) {
     }
 }
 
+// function to draw a table for all table content 
 function drawMultipleItem(data) {
+    // getting major div element for drawing
     let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
+    // calculating the cell width
     let cellWidth = Math.round(100 / Object.keys(data[0]).length);
 
+    // table title div with proper class
     let tableTitle = document.createElement('div');
     tableTitle.classList.add('data_draw_table_title');
     dataDrawDiv.appendChild(tableTitle);
 
+    // table content div with proper class
     let tableContent = document.createElement('div');
     tableContent.classList.add('data_draw_table_content');
     dataDrawDiv.appendChild(tableContent);
 
+    // for each element that should be drawn
     for (let i = 0; i < data.length; i++) {
         let keys = Object.keys(data[i]);
+        // if that is the first drawing iteration -> making title cells with
+        // object keys values inside
         if (i == 0) {
             for (let j = 0; j < keys.length; j++) {
                 let cellTitle = document.createElement('div');
@@ -117,9 +126,13 @@ function drawMultipleItem(data) {
                 tableTitle.appendChild(cellTitle);
             }
         }
+        // individual line of a data to draw with proper class
         let tableContentLine = document.createElement('div');
         tableContentLine.classList.add('data_draw_table_line');
         tableContent.appendChild(tableContentLine);
+        // for each element key drawing cells of object data with proper values.
+        // here we consider that each object from data has the same amount of keys with the same sequence.
+        // in all other cases at lease name will be seen.
         for (let j = 0; j < keys.length; j++) {
             let cellContent = document.createElement('div');
             cellContent.classList.add('ddtl_cell');
@@ -127,6 +140,7 @@ function drawMultipleItem(data) {
             cellContent.style.width = `${cellWidth}%`;
             tableContentLine.appendChild(cellContent);
         }
+        // for the last element we adding additinal div class to make round corners
         if (i == data.length - 1) {
             tableContentLine.classList.add('table_line_last');
         }
@@ -137,13 +151,17 @@ function drawMultipleItem(data) {
 // that function makes it like Episode Id
 function makeTitle(rawData) {
     return rawData
+        // splitting an input string with "_" character
         .split("_")
+        // for each element of split result make first letter in upper case
         .map(item => {
             return item.charAt(0).toUpperCase() + item.slice(1)
         })
+        // joining all elements together
         .join(' ');
 }
 
+// function to draw error
 function drawError(data, status) {
     let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
     let errDiv = document.createElement('div');
