@@ -94,6 +94,7 @@ function drawSingleItem(data) {
 
     }
 }
+
 // function to draw a table for all table content 
 function drawMultipleItem(data) {
     // getting major div element for drawing
@@ -165,6 +166,85 @@ function drawError(data, status) {
     let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
     let errDiv = document.createElement('div');
     errDiv.classList.add('error_msg');
-    errDiv.innerText = `${data}. Respond status code: ${status}`;
+    errDiv.innerText = `${data}.`
+    if (!!status) {
+        errDiv.innerText = ` Respond status code: ${status}`;
+    }
     dataDrawDiv.appendChild(errDiv);
+}
+
+// function to get approximate table structure.
+async function getTableFields() {
+    document.querySelector('div[class$="data_draw"]').innerHTML = "";
+
+    let selectedIndex = document.getElementById("table_name").options.selectedIndex;
+    let selectedTableName = document.getElementById("table_name").options[selectedIndex].value;
+    let getRequestUrl = new URL(`${urlRoot}/anyResource?resource=${selectedTableName}`);
+    let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
+
+    console.log(`Request url: ${getRequestUrl}`);
+    let responce = await fetch(getRequestUrl);
+    if (responce.status == 200) {
+        let data = await responce.json();
+        console.log(data);
+        let keys = Object.keys(data[0]);
+
+        keys.forEach(keyValue => {
+            let newDiv = document.createElement('div');
+            newDiv.innerText = keyValue;
+            dataDrawDiv.appendChild(newDiv);
+        })
+    }
+    else {
+        let msg = `Table ${selectedTableName} is empty, use any structure, you want`;
+        console.log(msg)
+        let msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        msgDiv.innerText = msg;
+        dataDrawDiv.appendChild(msgDiv);
+    }
+
+}
+
+async function put_data() {
+    let selectedIndex = document.getElementById("table_name").options.selectedIndex;
+    let selectedTableName = document.getElementById("table_name").options[selectedIndex].value;
+    let data_raw = document.getElementById("json_data").value;
+    if (!!data_raw) {
+        console.log(JSON.parse(data_raw));
+        console.log(selectedTableName);
+        let putRequestUrl = new URL(`${urlRoot}/anyResource`);
+        let putRequestbody = {
+            "resource": `${selectedTableName}`,
+            "record": JSON.parse(data_raw),
+        }
+        try {
+            // const resp = await fetch(putRequestUrl, {
+            //     method: "PUT",
+            //     body: JSON.stringify(putRequestbody),
+            // });
+            // console.log(resp);
+            fetch(putRequestUrl, {
+                mode: 'cors',
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Request-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent",
+                    'Access-Control-Request-Method': "OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD",
+                    'Access-Control-Allow-Origin': "*",
+                },
+                body: JSON.stringify(putRequestbody),
+            }).
+                then(data => console.log(data)).
+                catch(err => console.log(err));
+
+        }
+        catch (err) {
+            drawError("err");
+        }
+    }
+    else {
+        drawError("Nothing to put");
+    }
+
 }

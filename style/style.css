@@ -210,6 +210,36 @@ a.init_button:active {
 
 /* get.html stop */
 
+/* put.html start */
+
+a.put_data_button {
+    outline: none;
+    text-decoration: none;
+    width: 50px;
+}
+
+a.put_data_button:link {
+    color: black;
+}
+
+a.put_data_button:visited {
+    color: black;
+}
+
+a.put_data_button:focus {
+    color: black;
+}
+
+a.put_data_button:hover {
+    color: gold;
+}
+
+a.put_data_button:active {
+    color: black;
+}
+
+/* put.html stop */
+
 /* --------------------------------- */
 
 /* FOOTER */
@@ -223,6 +253,10 @@ a {
     padding: 0px 20px 0px;
     margin: 5px 0 5px;
     border-radius: 10px;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 /* --------------------------------- */
