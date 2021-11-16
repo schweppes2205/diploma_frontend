@@ -12,7 +12,8 @@ function maintainInitButtonPress(buttonId) {
         then(result => { alert(`Table ${urlSuffix} is initiated successfully`) }).
         catch(err => { alert(err) });
 }
-
+// get_data.html part
+// getting data function
 async function get_data(event) {
     // looking for Enter button press on the text input form
     if (event.keyCode === 13) {
@@ -59,7 +60,7 @@ async function get_data(event) {
         }
     }
 }
-
+// function to draw a table for a sigle requested value
 function drawSingleItem(data) {
     // playing with divs:
     // getting the one from page with class data_draw
@@ -93,20 +94,29 @@ function drawSingleItem(data) {
 
     }
 }
+
+// function to draw a table for all table content 
 function drawMultipleItem(data) {
+    // getting major div element for drawing
     let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
+    // calculating the cell width
     let cellWidth = Math.round(100 / Object.keys(data[0]).length);
 
+    // table title div with proper class
     let tableTitle = document.createElement('div');
     tableTitle.classList.add('data_draw_table_title');
     dataDrawDiv.appendChild(tableTitle);
 
+    // table content div with proper class
     let tableContent = document.createElement('div');
     tableContent.classList.add('data_draw_table_content');
     dataDrawDiv.appendChild(tableContent);
 
+    // for each element that should be drawn
     for (let i = 0; i < data.length; i++) {
         let keys = Object.keys(data[i]);
+        // if that is the first drawing iteration -> making title cells with
+        // object keys values inside
         if (i == 0) {
             for (let j = 0; j < keys.length; j++) {
                 let cellTitle = document.createElement('div');
@@ -116,9 +126,13 @@ function drawMultipleItem(data) {
                 tableTitle.appendChild(cellTitle);
             }
         }
+        // individual line of a data to draw with proper class
         let tableContentLine = document.createElement('div');
         tableContentLine.classList.add('data_draw_table_line');
         tableContent.appendChild(tableContentLine);
+        // for each element key drawing cells of object data with proper values.
+        // here we consider that each object from data has the same amount of keys with the same sequence.
+        // in all other cases at lease name will be seen.
         for (let j = 0; j < keys.length; j++) {
             let cellContent = document.createElement('div');
             cellContent.classList.add('ddtl_cell');
@@ -126,6 +140,7 @@ function drawMultipleItem(data) {
             cellContent.style.width = `${cellWidth}%`;
             tableContentLine.appendChild(cellContent);
         }
+        // for the last element we adding additinal div class to make round corners
         if (i == data.length - 1) {
             tableContentLine.classList.add('table_line_last');
         }
@@ -136,17 +151,100 @@ function drawMultipleItem(data) {
 // that function makes it like Episode Id
 function makeTitle(rawData) {
     return rawData
+        // splitting an input string with "_" character
         .split("_")
+        // for each element of split result make first letter in upper case
         .map(item => {
             return item.charAt(0).toUpperCase() + item.slice(1)
         })
+        // joining all elements together
         .join(' ');
 }
 
+// function to draw error
 function drawError(data, status) {
     let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
     let errDiv = document.createElement('div');
     errDiv.classList.add('error_msg');
-    errDiv.innerText = `${data}. Respond status code: ${status}`;
+    errDiv.innerText = `${data}.`
+    if (!!status) {
+        errDiv.innerText = ` Respond status code: ${status}`;
+    }
     dataDrawDiv.appendChild(errDiv);
+}
+
+// function to get approximate table structure.
+async function getTableFields() {
+    document.querySelector('div[class$="data_draw"]').innerHTML = "";
+
+    let selectedIndex = document.getElementById("table_name").options.selectedIndex;
+    let selectedTableName = document.getElementById("table_name").options[selectedIndex].value;
+    let getRequestUrl = new URL(`${urlRoot}/anyResource?resource=${selectedTableName}`);
+    let dataDrawDiv = document.querySelector('div[class$="data_draw"]');
+
+    console.log(`Request url: ${getRequestUrl}`);
+    let responce = await fetch(getRequestUrl);
+    if (responce.status == 200) {
+        let data = await responce.json();
+        console.log(data);
+        let keys = Object.keys(data[0]);
+
+        keys.forEach(keyValue => {
+            let newDiv = document.createElement('div');
+            newDiv.innerText = keyValue;
+            dataDrawDiv.appendChild(newDiv);
+        })
+    }
+    else {
+        let msg = `Table ${selectedTableName} is empty, use any structure, you want`;
+        console.log(msg)
+        let msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        msgDiv.innerText = msg;
+        dataDrawDiv.appendChild(msgDiv);
+    }
+
+}
+
+async function put_data() {
+    let selectedIndex = document.getElementById("table_name").options.selectedIndex;
+    let selectedTableName = document.getElementById("table_name").options[selectedIndex].value;
+    let data_raw = document.getElementById("json_data").value;
+    if (!!data_raw) {
+        console.log(JSON.parse(data_raw));
+        console.log(selectedTableName);
+        let putRequestUrl = new URL(`${urlRoot}/anyResource`);
+        let putRequestbody = {
+            "resource": `${selectedTableName}`,
+            "record": JSON.parse(data_raw),
+        }
+        try {
+            // const resp = await fetch(putRequestUrl, {
+            //     method: "PUT",
+            //     body: JSON.stringify(putRequestbody),
+            // });
+            // console.log(resp);
+            fetch(putRequestUrl, {
+                mode: 'cors',
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Request-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent",
+                    'Access-Control-Request-Method': "OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD",
+                    'Access-Control-Allow-Origin': "*",
+                },
+                body: JSON.stringify(putRequestbody),
+            }).
+                then(data => console.log(data)).
+                catch(err => console.log(err));
+
+        }
+        catch (err) {
+            drawError("err");
+        }
+    }
+    else {
+        drawError("Nothing to put");
+    }
+
 }
