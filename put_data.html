@@ -26,7 +26,7 @@
             <div class="data_selector">
                 <div class="table_selector">
                     <label for="select">Select database please</label>
-                    <select name="table_name" id="table_name" onchange="getTableFields()">
+                    <select name="table_name" id="table_name">
                         <option value="people">People</option>
                         <option value="planets">Planets</option>
                         <option value="films">Films</option>
@@ -37,9 +37,9 @@
                 </div>
             </div>
             <div class="data_draw">
-                <form id="put_data_form" class="hidden" action="javascript:testFunction(event)">
-                    <p><input type="submit"></p>
-                </form>
+                Enter JSON format text
+                <textarea id="json_data" rows="10"></textarea>
+                <a href="#" class="put_data_button" id="put_json" onclick="put_data()">Submit</a>
             </div>
         </div>
         <div class="footer"></div>
