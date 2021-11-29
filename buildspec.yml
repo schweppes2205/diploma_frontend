@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      httpd: latest
+    on-failure: ABORT
+  pre_build:
+    commands:
+      - i'm on prebuild now
+      - ls -lah
+  build:
+    commands:
+      - echo Build started on `date`
+  post_build:
+    commands:
+      - echo Build completed on `date`
