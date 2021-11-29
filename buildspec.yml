@@ -6,8 +6,10 @@ phases:
     on-failure: ABORT
   pre_build:
     commands:
-      - i'm on prebuild now
+      - on prebuild now
       - ls -lah
+      - pwd
+      - systemctl status httpd
   build:
     commands:
       - echo Build started on `date`
