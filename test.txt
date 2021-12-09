@@ -3,3 +3,4 @@ test text from master branch
 test after pipeline update
 test after api key access change
 testing all variables
+reconnected manually
