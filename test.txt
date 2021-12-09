@@ -1,2 +1,3 @@
 Test text from dev branch
 test text from master branch
+test after pipeline update
